@@ -1,0 +1,447 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation — Asep & Putri</title>
+    <meta name="description" content="You are cordially invited to the wedding of Asep & Putri.">
+
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style type="text/tailwindcss">
+        @theme {
+            --font-script: 'Great Vibes', cursive;
+            --font-sans: 'Poppins', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --color-pink-primary: #e8a0bf;
+            --color-pink-dark: #d4789c;
+            --color-pink-light: #f5d5e5;
+            --color-gold: #c9a84c;
+            --color-cream: #fdf8f0;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes floatLotus {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(232,160,191,0.3); }
+            50% { box-shadow: 0 0 40px rgba(232,160,191,0.6); }
+        }
+        @keyframes wreathSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+        .animate-float {
+            animation: floatLotus 3s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        .animate-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        /* Seamless Reveal Animations */
+        .reveal-section, .reveal-up, .reveal-left, .reveal-right {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            filter: blur(5px);
+        }
+        .reveal-section, .reveal-up { transform: translateY(40px); }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translate(0, 0) !important;
+            filter: blur(0);
+        }
+    </style>
+</head>
+<body class="font-sans m-0 p-0 overflow-x-hidden bg-black">
+
+    <!-- Full-screen landing wrapper -->
+    <div id="landing-screen" class="relative w-full h-dvh flex flex-col items-center justify-center overflow-hidden">
+
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src="{% static 'images/bg.png' %}"
+                alt="Forest wedding"
+                class="w-full h-full object-cover"
+            >
+            <!-- Gradient overlays for depth -->
+            <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/40"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-pink-primary/20 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Top greeting (Moved lower by changing mt-auto to mt-20) -->
+        <div class="relative z-10 text-center mt-20 mb-8 animate-fade-in" style="animation-delay: 0.3s; opacity: 0;">
+            <p class="text-white/90 text-sm font-sans tracking-wider drop-shadow-lg">
+                Hello, {% if guest %}{{ guest.name }}{% else %}Dear Guest{% endif %}
+            </p>
+            <p class="text-white/80 text-xs font-light mt-1 tracking-wide drop-shadow-md">
+                We invite you to attend our wedding
+            </p>
+        </div>
+
+        <!-- Central Wreath Decoration -->
+        <div class="relative z-10 flex items-center justify-center my-0">
+            <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
+                <svg class="absolute inset-0 w-full h-full animate-fade-in" style="animation-delay: 0.6s; opacity: 0;" viewBox="0 0 260 260" fill="none">
+                    <circle cx="130" cy="130" r="120" stroke="white" stroke-width="0.5" opacity="0.4"/>
+                    <circle cx="130" cy="130" r="115" stroke="white" stroke-width="0.3" opacity="0.3"/>
+                    {% for i in "abcdefghijklmnop" %}
+                    <g transform="rotate({{ forloop.counter0|add:"0"|floatformat:"0" }}{% widthratio forloop.counter0 1 22.5 %}, 130, 130)">
+                        <ellipse cx="130" cy="12" rx="4" ry="10" fill="white" opacity="0.3" transform="rotate(15, 130, 12)"/>
+                        <ellipse cx="138" cy="14" rx="3" ry="8" fill="white" opacity="0.25" transform="rotate(-10, 138, 14)"/>
+                    </g>
+                    {% endfor %}
+                </svg>
+            </div>
+        </div>
+
+        <!-- Couple Names -->
+        <div class="relative z-10 text-center animate-fade-in-up" style="animation-delay: 1s; opacity: 0;">
+            <h1 class="font-script text-5xl sm:text-6xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)] leading-tight">
+                Asep <span class="text-pink-light">&</span> Putri
+            </h1>
+        </div>        <!-- QR Code (Moved here) -->
+        <div class="relative z-10 my-2 animate-fade-in" style="animation-delay: 1.2s; opacity: 0;">
+             <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white/90 rounded-lg flex items-center justify-center shadow-lg border border-white/20">
+                <svg viewBox="0 0 100 100" class="w-16 h-16 sm:w-20 sm:h-20">
+                    <rect x="5" y="5" width="25" height="25" fill="#333" rx="2"/>
+                    <rect x="70" y="5" width="25" height="25" fill="#333" rx="2"/>
+                    <rect x="5" y="70" width="25" height="25" fill="#333" rx="2"/>
+                    <rect x="10" y="10" width="15" height="15" fill="white" rx="1"/>
+                    <rect x="75" y="10" width="15" height="15" fill="white" rx="1"/>
+                    <rect x="10" y="75" width="15" height="15" fill="white" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" fill="#333" rx="0.5"/>
+                    <rect x="79" y="14" width="7" height="7" fill="#333" rx="0.5"/>
+                    <rect x="14" y="79" width="7" height="7" fill="#333" rx="0.5"/>
+                    <rect x="35" y="5" width="5" height="5" fill="#333"/>
+                    <rect x="45" y="5" width="5" height="5" fill="#333"/>
+                    <rect x="55" y="10" width="5" height="5" fill="#333"/>
+                    <rect x="35" y="15" width="5" height="5" fill="#333"/>
+                    <rect x="50" y="20" width="5" height="5" fill="#333"/>
+                    <rect x="40" y="25" width="5" height="5" fill="#333"/>
+                    <rect x="35" y="35" width="5" height="5" fill="#333"/>
+                    <rect x="45" y="35" width="5" height="5" fill="#333"/>
+                    <rect x="55" y="35" width="5" height="5" fill="#333"/>
+                    <rect x="5" y="40" width="5" height="5" fill="#333"/>
+                    <rect x="15" y="45" width="5" height="5" fill="#333"/>
+                    <rect x="25" y="35" width="5" height="5" fill="#333"/>
+                    <rect x="60" y="45" width="5" height="5" fill="#333"/>
+                    <rect x="70" y="40" width="5" height="5" fill="#333"/>
+                    <rect x="80" y="35" width="5" height="5" fill="#333"/>
+                    <rect x="90" y="40" width="5" height="5" fill="#333"/>
+                    <rect x="40" y="45" width="5" height="5" fill="#333"/>
+                    <rect x="50" y="50" width="5" height="5" fill="#333"/>
+                    <rect x="35" y="55" width="5" height="5" fill="#333"/>
+                    <rect x="45" y="60" width="5" height="5" fill="#333"/>
+                    <rect x="60" y="55" width="5" height="5" fill="#333"/>
+                    <rect x="75" y="55" width="5" height="5" fill="#333"/>
+                    <rect x="85" y="60" width="5" height="5" fill="#333"/>
+                    <rect x="90" y="70" width="5" height="5" fill="#333"/>
+                    <rect x="70" y="70" width="25" height="25" fill="#333" rx="2"/>
+                    <rect x="75" y="75" width="15" height="15" fill="white" rx="1"/>
+                    <rect x="79" y="79" width="7" height="7" fill="#333" rx="0.5"/>
+                    <rect x="40" y="70" width="5" height="5" fill="#333"/>
+                    <rect x="50" y="75" width="5" height="5" fill="#333"/>
+                    <rect x="55" y="85" width="5" height="5" fill="#333"/>
+                    <rect x="40" y="90" width="5" height="5" fill="#333"/>
+                    <rect x="5" y="55" width="5" height="5" fill="#333"/>
+                    <rect x="15" y="60" width="5" height="5" fill="#333"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Lotus decoration -->
+        <div class="relative z-10 my-2 animate-float animate-fade-in" style="animation-delay: 1.3s; opacity: 0;">
+            <svg width="60" height="40" viewBox="0 0 60 40" fill="none" class="drop-shadow-lg">
+                <!-- Center petal -->
+                <ellipse cx="30" cy="20" rx="6" ry="16" fill="white" opacity="0.7"/>
+                <!-- Left petals -->
+                <ellipse cx="20" cy="22" rx="5" ry="14" fill="white" opacity="0.5" transform="rotate(-20, 20, 22)"/>
+                <ellipse cx="12" cy="26" rx="4" ry="11" fill="white" opacity="0.35" transform="rotate(-40, 12, 26)"/>
+                <!-- Right petals -->
+                <ellipse cx="40" cy="22" rx="5" ry="14" fill="white" opacity="0.5" transform="rotate(20, 40, 22)"/>
+                <ellipse cx="48" cy="26" rx="4" ry="11" fill="white" opacity="0.35" transform="rotate(40, 48, 26)"/>
+            </svg>
+        </div>        <!-- Open Invitation Button (Lifted higher) -->
+        <div class="relative z-10 mb-20 mt-2 animate-fade-in-up" style="animation-delay: 1.6s; opacity: 0;">
+            <button id="open-invitation-btn"
+                class="group relative px-10 py-3.5 bg-gradient-to-r from-pink-primary to-pink-dark text-white font-sans font-medium text-sm tracking-wider rounded-full shadow-xl animate-pulse-glow transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden">
+                <span class="relative z-10 flex items-center gap-2">
+                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Open Invitation
+                </span>
+                <div class="absolute inset-0 animate-shimmer rounded-full"></div>
+            </button>
+        </div>
+
+        <!-- Bottom decorative particles -->
+        <div class="absolute bottom-0 left-0 right-0 h-32 z-5 pointer-events-none">
+            <div class="absolute bottom-8 left-1/4 w-1 h-1 bg-white/40 rounded-full animate-float" style="animation-delay: 0s;"></div>
+            <div class="absolute bottom-16 left-1/3 w-1.5 h-1.5 bg-pink-light/30 rounded-full animate-float" style="animation-delay: 0.5s;"></div>
+            <div class="absolute bottom-12 right-1/4 w-1 h-1 bg-white/30 rounded-full animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-pink-light/20 rounded-full animate-float" style="animation-delay: 1.5s;"></div>
+        </div>
+    </div>
+
+    <!-- MAIN INVITATION CONTENT (Hidden by default) -->
+    <div id="invitation-content" class="hidden w-full bg-cream min-h-screen flex flex-col items-center pb-20 overflow-x-hidden">
+        
+        <!-- Summary Couple Section (Animated) -->
+        <section class="reveal-section w-full max-w-4xl px-4 pt-20 flex flex-col items-center">
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-2xl w-full flex flex-col items-center border border-pink-light/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-light/20 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-pink-light/20 rounded-full -ml-16 -mb-16 blur-3xl"></div>
+                
+                <h2 class="font-sans font-semibold text-2xl text-pink-dark mb-2">Meet The Happy Couple</h2>
+                <p class="text-gray-500 text-[10px] text-center max-w-md mb-12 italic leading-relaxed">
+                    Glory be to Allah SWT who has created creatures in pairs. Ya Allah, please accept and bless us.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 sm:gap-12 w-full max-w-2xl px-2">
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-full p-1 border-2 border-pink-primary relative mb-3 sm:mb-4 transition-transform duration-500 group-hover:scale-105">
+                            <img src="{% static 'images/groom.png' %}" alt="Asep Irawan" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <h3 class="font-script text-xl sm:text-3xl text-pink-dark">Asep Irawan</h3>
+                        <p class="text-gray-400 text-[8px] sm:text-[10px] mt-1 uppercase tracking-tighter">Putra dari</p>
+                        <p class="text-gray-600 font-medium text-[9px] sm:text-sm text-center leading-tight">Bpk. Ilham & Ibu Fatimah</p>
+                    </div>
+
+                    <div class="flex flex-col items-center group">
+                        <div class="w-24 h-24 sm:w-40 sm:h-40 rounded-full p-1 border-2 border-pink-primary relative mb-3 sm:mb-4 transition-transform duration-500 group-hover:scale-105">
+                            <img src="{% static 'images/bride.png' %}" alt="Putri Amanda" class="w-full h-full rounded-full object-cover grayscale-[10%] contrast-[105%]">
+                        </div>
+                        <h3 class="font-script text-xl sm:text-3xl text-pink-dark">Putri Amanda</h3>
+                        <p class="text-gray-400 text-[8px] sm:text-[10px] mt-1 uppercase tracking-tighter">Putri dari</p>
+                        <p class="text-gray-600 font-medium text-[9px] sm:text-sm text-center leading-tight">Bpk. Anshori & Ibu Ratna Dewi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal-section w-full max-w-4xl px-4 pt-24 flex flex-col items-center text-center">
+            <h2 class="font-sans font-semibold text-2xl text-pink-primary mb-6 uppercase tracking-[0.2em] drop-shadow-sm">We'r Getting Merried</h2>
+            
+            <p class="font-script text-3xl sm:text-5xl text-gray-600 mb-6 drop-shadow-sm">Assalamualaikum Warrohmatullahi Wabarrakatuhu</p>
+            
+            <p class="text-gray-500 text-[10px] sm:text-xs leading-relaxed max-w-lg mb-12 px-4 drop-shadow-sm">
+                By asking for the grace and blessing of Allah SWT. We intend to hold a wedding celebration for our sons and daughters, which Allah SWT willing will be held on:
+            </p>
+            
+            <div id="countdown" class="grid grid-cols-4 gap-3 sm:gap-6 mb-20 w-full max-w-md">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-pink-light/30">
+                        <span id="days" class="text-2xl sm:text-3xl font-sans font-semibold text-pink-dark">00</span>
+                    </div>
+                    <span class="text-[10px] text-pink-primary font-medium mt-2">HARI</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-pink-light/30">
+                        <span id="hours" class="text-2xl sm:text-3xl font-sans font-semibold text-pink-dark">00</span>
+                    </div>
+                    <span class="text-[10px] text-pink-primary font-medium mt-2">JAM</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-pink-light/30">
+                        <span id="minutes" class="text-2xl sm:text-3xl font-sans font-semibold text-pink-dark">00</span>
+                    </div>
+                    <span class="text-[10px] text-pink-primary font-medium mt-2">MENIT</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-pink-light/30">
+                        <span id="seconds" class="text-2xl sm:text-3xl font-sans font-semibold text-pink-dark">00</span>
+                    </div>
+                    <span class="text-[10px] text-pink-primary font-medium mt-2">DETIK</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 sm:gap-8 w-full max-w-4xl px-2 sm:px-4">
+                <!-- Card 1: Akad Nikah -->
+                <div class="group relative h-[300px] sm:h-[400px] rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-between p-4 sm:p-10 transition-all duration-500 hover:scale-[1.02]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/gallery_3.png' %}" alt="Akad" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-pink-dark/20 to-black/70"></div>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="text-2xl sm:text-4xl mb-2 sm:mb-4 drop-shadow-md">💍</div>
+                        <h4 class="font-sans font-semibold text-xs sm:text-2xl text-white mb-1 sm:mb-2 drop-shadow-lg uppercase tracking-wider">Akad Nikah</h4>
+                        <p class="text-white/90 text-[8px] sm:text-sm mb-3 sm:mb-6 drop-shadow-md tracking-tighter sm:tracking-normal">08.00 - 10.00 WIB</p>
+                        <div class="mb-2 sm:mb-4">
+                            <h5 class="text-white font-medium text-[9px] sm:text-lg drop-shadow-md leading-tight">Masjid Jami' Baiturrahman</h5>
+                            <p class="hidden sm:block text-white/80 text-[10px] leading-relaxed max-w-[200px] mt-1 drop-shadow-md">Jl. Sudirman No. 123, Kebayoran Baru, Jakarta Selatan</p>
+                        </div>
+                    </div>
+                    <button class="relative z-10 w-full py-1.5 sm:py-2.5 bg-white text-pink-dark font-sans font-semibold text-[8px] sm:text-xs rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 hover:bg-white hover:scale-105 flex items-center justify-center gap-1 sm:gap-2">
+                        <svg class="w-2 h-2 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        Lihat Lokasi
+                    </button>
+                </div>
+                <!-- Card 2: Resepsi Pernikahan -->
+                <div class="group relative h-[300px] sm:h-[400px] rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-between p-4 sm:p-10 transition-all duration-500 hover:scale-[1.02]">
+                    <div class="absolute inset-0 z-0">
+                        <img src="{% static 'images/bg.png' %}" alt="Resepsi" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-pink-dark/20 to-black/70"></div>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="text-2xl sm:text-4xl mb-2 sm:mb-4 drop-shadow-md">🥂</div>
+                        <h4 class="font-sans font-semibold text-xs sm:text-2xl text-white mb-1 sm:mb-2 drop-shadow-lg uppercase tracking-wider">Resepsi </h4>
+                        <p class="text-white/90 text-[8px] sm:text-sm mb-3 sm:mb-6 drop-shadow-md tracking-tighter sm:tracking-normal">11.00 - 14.00 WIB</p>
+                        <div class="mb-2 sm:mb-4">
+                            <h5 class="text-white font-medium text-[9px] sm:text-lg drop-shadow-md leading-tight">Grand Ballroom Plaza</h5>
+                            <p class="hidden sm:block text-white/80 text-[10px] leading-relaxed max-w-[200px] mt-1 drop-shadow-md">Mega Kuningan, Setiabudi, Jakarta Selatan 12950</p>
+                        </div>
+                    </div>
+                    <button class="relative z-10 w-full py-1.5 sm:py-2.5 bg-white text-pink-dark font-sans font-semibold text-[8px] sm:text-xs rounded-lg sm:rounded-xl shadow-lg transition-all duration-300 hover:bg-white hover:scale-105 flex items-center justify-center gap-1 sm:gap-2">
+                        <svg class="w-2 h-2 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        Lihat Lokasi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story Section (Staggered Grid) -->
+        <section class="w-full max-w-4xl px-4 mt-32 flex flex-col items-center">
+            <h2 class="reveal-section font-script text-5xl text-pink-dark mb-16">Our Love Story</h2>
+            
+            <div class="grid grid-cols-2 gap-4 sm:gap-8 w-full">
+                <!-- Row 1: Left Image, Right Text (Slide Left) -->
+                <div class="reveal-left flex flex-col gap-4">
+                    <div class="rounded-3xl overflow-hidden shadow-xl aspect-[4/5] sm:aspect-[3/4]">
+                        <img src="{% static 'images/groom.png' %}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="bg-pink-light/30 p-4 sm:p-8 rounded-3xl shadow-sm border border-white flex items-center justify-center min-h-[120px]">
+                        <p class="text-pink-dark text-[9px] sm:text-xs italic leading-relaxed text-center font-serif">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor mauris odio tellus sem neque.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Row 2: Left Text, Right Image (Slide Right) -->
+                <div class="reveal-right flex flex-col gap-4 mt-12 sm:mt-20">
+                    <div class="bg-pink-light/30 p-4 sm:p-8 rounded-3xl shadow-sm border border-white flex items-center justify-center min-h-[120px]">
+                        <p class="text-pink-dark text-[9px] sm:text-xs italic leading-relaxed text-center font-serif">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor mauris odio tellus sem neque.
+                        </p>
+                    </div>
+                    <div class="rounded-3xl overflow-hidden shadow-xl aspect-[4/5] sm:aspect-[3/4]">
+                        <img src="{% static 'images/bride.png' %}" class="w-full h-full object-cover contrast-[105%]">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section (Slide Up Per Block) -->
+        <section class="w-full max-w-5xl px-4 mt-32 flex flex-col items-center">
+            <h2 class="reveal-section font-script text-5xl text-pink-dark mb-12">Gallery</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+                <div class="reveal-up md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden shadow-lg border-2 border-white group" style="transition-delay: 0.1s;">
+                    <img src="{% static 'images/gallery_3.png' %}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="reveal-up rounded-2xl overflow-hidden shadow-lg border-2 border-white group h-40 md:h-full" style="transition-delay: 0.2s;">
+                    <img src="{% static 'images/bg.png' %}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="reveal-up rounded-2xl overflow-hidden shadow-lg border-2 border-white group h-40 md:h-full" style="transition-delay: 0.3s;">
+                    <img src="{% static 'images/bride.png' %}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[20%]">
+                </div>
+                <div class="reveal-up rounded-2xl overflow-hidden shadow-lg border-2 border-white group h-40 md:h-full" style="transition-delay: 0.4s;">
+                    <img src="{% static 'images/groom.png' %}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <div class="reveal-up rounded-2xl overflow-hidden shadow-lg border-2 border-white group h-40 md:h-full" style="transition-delay: 0.5s;">
+                    <img src="{% static 'images/gallery_3.png' %}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 rotate-1">
+                </div>
+            </div>
+            
+            <p class="reveal-up mt-20 text-gray-500 text-[10px] text-center max-w-sm italic leading-relaxed px-4">
+                "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri..."
+                <br>
+                <span class="text-pink-dark font-sans font-semibold mt-2 block">- QS AR-RUM 21 -</span>
+            </p>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('open-invitation-btn').addEventListener('click', function() {
+            const content = document.getElementById('invitation-content');
+            content.classList.remove('hidden');
+            setTimeout(() => {
+                content.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+            startCountdown('Aug 20, 2026 08:00:00');
+            initObserver(); // Initialize observer after opening
+        });
+
+        // Intersection Observer for seamless reveal
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal-visible');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            // Target all reveal classes
+            document.querySelectorAll('.reveal-section, .reveal-up, .reveal-left, .reveal-right').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function startCountdown(dateStr) {
+            const targetDate = new Date(dateStr).getTime();
+            const updateTimer = () => {
+                const now = new Date().getTime();
+                const diff = targetDate - now;
+                if (diff < 0) return;
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            };
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>
+>
